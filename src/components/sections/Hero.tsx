@@ -19,6 +19,8 @@ export default function Hero() {
           <Link
             href="https://github.com/ParkerGoby"
             aria-label="GitHub"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-md border border-neutral-300 px-4 py-2 text-sm transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
           >
             <Github size={16} />
@@ -27,6 +29,8 @@ export default function Hero() {
           <Link
             href="https://www.linkedin.com/in/parker-goby-b0336a25b/"
             aria-label="LinkedIn"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-md border border-neutral-300 px-4 py-2 text-sm transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
           >
             <Linkedin size={16} />
@@ -35,6 +39,8 @@ export default function Hero() {
           <Link
             href="mailto:parkergoby1@gmail.com"
             aria-label="Email"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-md border border-neutral-300 px-4 py-2 text-sm transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
           >
             <Mail size={16} />
