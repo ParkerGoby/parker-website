@@ -17,7 +17,7 @@ export default function Hero() {
         </p>
         <div className="mt-8 flex items-center gap-4">
           <Link
-            href="https://github.com/parkerg"
+            href="https://github.com/ParkerGoby"
             aria-label="GitHub"
             className="inline-flex items-center gap-2 rounded-md border border-neutral-300 px-4 py-2 text-sm transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
           >
@@ -25,7 +25,7 @@ export default function Hero() {
             GitHub
           </Link>
           <Link
-            href="https://linkedin.com/in/parkerg"
+            href="https://www.linkedin.com/in/parker-goby-b0336a25b/"
             aria-label="LinkedIn"
             className="inline-flex items-center gap-2 rounded-md border border-neutral-300 px-4 py-2 text-sm transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
           >
@@ -33,7 +33,7 @@ export default function Hero() {
             LinkedIn
           </Link>
           <Link
-            href="mailto:parker@example.com"
+            href="mailto:parkergoby1@gmail.com"
             aria-label="Email"
             className="inline-flex items-center gap-2 rounded-md border border-neutral-300 px-4 py-2 text-sm transition-colors hover:bg-neutral-100 dark:border-neutral-700 dark:hover:bg-neutral-800"
           >

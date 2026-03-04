@@ -10,21 +10,21 @@ export default function Footer() {
         </p>
         <div className="flex items-center gap-4">
           <Link
-            href="https://github.com/parkerg"
+            href="https://github.com/ParkerGoby"
             aria-label="GitHub"
             className="text-neutral-500 transition-colors hover:text-neutral-900 dark:hover:text-neutral-100"
           >
             <Github size={18} />
           </Link>
           <Link
-            href="https://linkedin.com/in/parkerg"
+            href="https://www.linkedin.com/in/parker-goby-b0336a25b/"
             aria-label="LinkedIn"
             className="text-neutral-500 transition-colors hover:text-neutral-900 dark:hover:text-neutral-100"
           >
             <Linkedin size={18} />
           </Link>
           <Link
-            href="mailto:parker@example.com"
+            href="mailto:parkergoby1@gmail.com"
             aria-label="Email"
             className="text-neutral-500 transition-colors hover:text-neutral-900 dark:hover:text-neutral-100"
           >

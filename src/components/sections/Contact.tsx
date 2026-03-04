@@ -12,25 +12,25 @@ export default function Contact() {
         </p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:gap-4">
           <Link
-            href="mailto:parker@example.com"
+            href="mailto:parkergoby1@gmail.com"
             className="inline-flex items-center gap-2 text-sm font-medium text-neutral-700 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100"
           >
             <Mail size={16} />
-            parker@example.com
+            parkergoby1@gmail.com
           </Link>
           <Link
-            href="https://github.com/parkerg"
+            href="https://github.com/ParkerGoby"
             className="inline-flex items-center gap-2 text-sm font-medium text-neutral-700 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100"
           >
             <Github size={16} />
-            github.com/parkerg
+            github.com/ParkerGoby
           </Link>
           <Link
-            href="https://linkedin.com/in/parkerg"
+            href="https://www.linkedin.com/in/parker-goby-b0336a25b/"
             className="inline-flex items-center gap-2 text-sm font-medium text-neutral-700 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100"
           >
             <Linkedin size={16} />
-            linkedin.com/in/parkerg
+            linkedin.com/in/parker-goby-b0336a25b
           </Link>
         </div>
       </div>

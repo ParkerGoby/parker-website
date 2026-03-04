@@ -12,6 +12,10 @@
 - Projects: static data in `src/lib/projects.ts`
 - All components in `src/components/`, organized by `layout/` and `sections/`
 
+## Git Workflow
+- **Always create a `feature/<name>` branch before making any code changes. Never commit directly to `main`.**
+- Merge feature branches into `main` when work is complete
+
 ## Conventions
 - Use `@/*` import alias (maps to `src/`)
 - Components: PascalCase, co-located with their types
