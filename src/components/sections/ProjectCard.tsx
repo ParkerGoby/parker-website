@@ -12,6 +12,8 @@ export default function ProjectCard({ title, description, tech, url, github }: P
             <Link
               href={github}
               aria-label={`${title} on GitHub`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
             >
               <Github size={16} />
@@ -21,6 +23,8 @@ export default function ProjectCard({ title, description, tech, url, github }: P
             <Link
               href={url}
               aria-label={`${title} live site`}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
             >
               <ExternalLink size={16} />

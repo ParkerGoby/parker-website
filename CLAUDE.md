@@ -21,6 +21,7 @@
 - Components: PascalCase, co-located with their types
 - Blog frontmatter required fields: title, date, excerpt, published (boolean)
 - Run `pnpm build` after changes to catch TypeScript and build errors
+- External links (href starting with `http://`, `https://`, or `mailto:`) must always include `target="_blank"` and `rel="noopener noreferrer"`. Internal links (href starting with `/`) do not get these attributes.
 
 ## Content
 - Add blog posts as `.mdx` files in `src/content/blog/`
