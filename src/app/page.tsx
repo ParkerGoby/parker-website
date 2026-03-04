@@ -17,10 +17,13 @@ export default function Home() {
       <section className="py-12">
         <div className="mx-auto max-w-4xl px-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight">Projects</h2>
+            <div>
+              <h2 className="text-2xl font-bold tracking-tight">Projects</h2>
+              <div className="mt-1 h-0.5 w-8 bg-gradient-to-r from-cyan-400 to-teal-400" />
+            </div>
             <Link
               href="/projects"
-              className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+              className="text-sm text-neutral-500 transition-colors hover:text-cyan-400"
             >
               View all →
             </Link>
@@ -37,15 +40,18 @@ export default function Home() {
         <section className="py-12">
           <div className="mx-auto max-w-4xl px-6">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold tracking-tight">Writing</h2>
+              <div>
+                <h2 className="text-2xl font-bold tracking-tight">Writing</h2>
+                <div className="mt-1 h-0.5 w-8 bg-gradient-to-r from-cyan-400 to-teal-400" />
+              </div>
               <Link
                 href="/blog"
-                className="text-sm text-neutral-500 hover:text-neutral-900 dark:hover:text-neutral-100"
+                className="text-sm text-neutral-500 transition-colors hover:text-cyan-400"
               >
                 View all →
               </Link>
             </div>
-            <div className="mt-6 flex flex-col divide-y divide-neutral-200 dark:divide-neutral-800">
+            <div className="mt-6 flex flex-col divide-y divide-neutral-800">
               {posts.map((post) => (
                 <div key={post.slug} className="py-4 first:pt-0 last:pb-0">
                   <BlogCard {...post} />
