@@ -7,7 +7,7 @@ import { getRecentPosts } from '@/lib/db-blog'
 import Link from 'next/link'
 
 export default async function Home() {
-  const posts = await getRecentPosts(3)
+  const posts = await getRecentPosts(4)
   const featuredProjects = projects.slice(0, 3)
 
   return (
