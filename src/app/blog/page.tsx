@@ -32,11 +32,9 @@ export default async function BlogPage() {
       {posts.length === 0 ? (
         <p className="mt-10 text-neutral-500">No posts published yet.</p>
       ) : (
-        <div className="mt-10 flex flex-col divide-y divide-neutral-200 dark:divide-neutral-800">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {posts.map((post) => (
-            <div key={post.slug} className="py-6 first:pt-0 last:pb-0">
-              <BlogCard {...post} />
-            </div>
+            <BlogCard key={post.slug} {...post} />
           ))}
         </div>
       )}

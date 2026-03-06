@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { Post } from '@/types'
+import GlowCard from '@/components/ui/GlowCard'
 
 type BlogCardProps = Pick<Post, 'title' | 'date' | 'excerpt' | 'slug' | 'readingTime' | 'tags'>
 
@@ -11,7 +12,7 @@ export default function BlogCard({ title, date, excerpt, slug, readingTime, tags
   })
 
   return (
-    <article>
+    <GlowCard>
       <Link href={`/blog/${slug}`} className="group block">
         <h3 className="font-semibold transition-colors group-hover:text-cyan-400">{title}</h3>
         <p className="mt-1 text-sm text-neutral-500">
@@ -32,6 +33,6 @@ export default function BlogCard({ title, date, excerpt, slug, readingTime, tags
           ))}
         </div>
       )}
-    </article>
+    </GlowCard>
   )
 }
