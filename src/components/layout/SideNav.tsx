@@ -3,7 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Github, Linkedin, Mail, Menu, X, Home, FolderOpen, FileText } from 'lucide-react'
+import { Github, Linkedin, Mail, Menu, X, Home, FolderOpen, FileText, LogIn, LogOut } from 'lucide-react'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import Image from 'next/image'
 
 const navLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -20,6 +22,7 @@ const socialLinks = [
 export default function SideNav() {
   const [open, setOpen] = useState(false)
   const pathname = usePathname()
+  const { data: session, status } = useSession()
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
@@ -74,6 +77,45 @@ export default function SideNav() {
             <Icon size={18} />
           </Link>
         ))}
+      </div>
+
+      {/* Auth UI */}
+      <div className="mt-4 border-t border-neutral-800/60 px-3 pt-4">
+        {status === 'authenticated' && session?.user ? (
+          <div className="flex items-center gap-2">
+            {session.user.image ? (
+              <Image
+                src={session.user.image}
+                alt={session.user.name ?? 'User avatar'}
+                width={28}
+                height={28}
+                className="rounded-full"
+              />
+            ) : (
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-cyan-900 text-xs text-cyan-400">
+                {session.user.name?.[0] ?? '?'}
+              </div>
+            )}
+            <span className="flex-1 truncate text-xs text-neutral-400">
+              {session.user.name}
+            </span>
+            <button
+              onClick={() => signOut()}
+              aria-label="Sign out"
+              className="text-neutral-500 transition-colors hover:text-cyan-400"
+            >
+              <LogOut size={16} />
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={() => signIn('google')}
+            className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm text-neutral-400 transition-colors hover:bg-cyan-950/50 hover:text-cyan-300"
+          >
+            <LogIn size={16} />
+            Sign in
+          </button>
+        )}
       </div>
     </div>
   )
