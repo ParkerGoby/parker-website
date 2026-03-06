@@ -5,9 +5,9 @@ import GlowCard from '@/components/ui/GlowCard'
 
 export default function ProjectCard({ title, description, tech, url, github }: Project) {
   return (
-    <GlowCard>
+    <GlowCard className="group">
       <div className="flex items-start justify-between gap-4">
-        <h3 className="font-semibold">{title}</h3>
+        <h3 className="font-semibold transition-colors group-hover:text-cyan-400">{title}</h3>
         <div className="flex shrink-0 items-center gap-3">
           {github && (
             <Link
