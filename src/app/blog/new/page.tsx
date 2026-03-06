@@ -116,6 +116,10 @@ export default function NewBlogPage() {
     insertAtCursor('\n---\n')
   }
 
+  function handleNewline() {
+    insertAtCursor('  \n')
+  }
+
   function handleLink() {
     const ta = textareaRef.current
     if (!ta) return
@@ -248,6 +252,9 @@ export default function NewBlogPage() {
             </button>
             <button onClick={handleLink} className={toolbarBtn} title="Link">
               🔗
+            </button>
+            <button onClick={handleNewline} className={toolbarBtn} title="Hard line break (two spaces + newline)">
+              ↵
             </button>
           </div>
           {/* Textarea */}
