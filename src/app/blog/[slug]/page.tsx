@@ -1,18 +1,16 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getAllPosts, getPostBySlug } from '@/lib/blog'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { getPostBySlug } from '@/lib/db-blog'
 
 interface Props {
   params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  return getAllPosts().map((post) => ({ slug: post.slug }))
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const result = getPostBySlug(slug)
+  const result = await getPostBySlug(slug)
   if (!result) return {}
   return {
     title: result.post.title,
@@ -22,19 +20,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params
-  const result = getPostBySlug(slug)
+  const result = await getPostBySlug(slug)
 
-  if (!result || !result.post.published) notFound()
+  if (!result) notFound()
 
-  const { post } = result
+  const { post, content } = result
   const formatted = new Date(post.date).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   })
-
-  // Dynamically import the MDX file
-  const { default: Content } = await import(`@/content/blog/${slug}.mdx`)
 
   return (
     <article className="mx-auto max-w-2xl px-6 py-16">
@@ -58,7 +53,7 @@ export default async function BlogPostPage({ params }: Props) {
         )}
       </header>
       <div className="prose prose-neutral dark:prose-invert max-w-none">
-        <Content />
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
       </div>
     </article>
   )

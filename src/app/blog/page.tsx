@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 import BlogCard from '@/components/sections/BlogCard'
-import { getAllPosts } from '@/lib/blog'
+import { getAllPublishedPosts } from '@/lib/db-blog'
 
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Writing about software engineering and things I learn.',
 }
 
-export default function BlogPage() {
-  const posts = getAllPosts()
+export default async function BlogPage() {
+  const posts = await getAllPublishedPosts()
 
   return (
     <div className="mx-auto max-w-4xl px-6 py-16">
