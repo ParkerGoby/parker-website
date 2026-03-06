@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import SideNav from '@/components/layout/SideNav'
+import SessionProviderWrapper from '@/components/providers/SessionProviderWrapper'
+import { auth } from '@/auth'
 import './globals.css'
 
 const geistSans = Geist({
@@ -21,18 +23,22 @@ export const metadata: Metadata = {
   description: 'Software engineer building things on the web.',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await auth()
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="flex min-h-screen">
-          <SideNav />
-          <main className="flex-1 md:ml-64">{children}</main>
-        </div>
+        <SessionProviderWrapper session={session}>
+          <div className="flex min-h-screen">
+            <SideNav />
+            <main className="flex-1 md:ml-64">{children}</main>
+          </div>
+        </SessionProviderWrapper>
       </body>
     </html>
   )
