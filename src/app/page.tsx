@@ -3,11 +3,11 @@ import ProjectCard from '@/components/sections/ProjectCard'
 import BlogCard from '@/components/sections/BlogCard'
 import Contact from '@/components/sections/Contact'
 import { projects } from '@/lib/projects'
-import { getAllPosts } from '@/lib/blog'
+import { getRecentPosts } from '@/lib/db-blog'
 import Link from 'next/link'
 
-export default function Home() {
-  const posts = getAllPosts().slice(0, 3)
+export default async function Home() {
+  const posts = await getRecentPosts(3)
   const featuredProjects = projects.slice(0, 3)
 
   return (
