@@ -51,11 +51,9 @@ export default async function Home() {
                 View all →
               </Link>
             </div>
-            <div className="mt-6 flex flex-col divide-y divide-neutral-800">
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {posts.map((post) => (
-                <div key={post.slug} className="py-4 first:pt-0 last:pb-0">
-                  <BlogCard {...post} />
-                </div>
+                <BlogCard key={post.slug} {...post} />
               ))}
             </div>
           </div>
