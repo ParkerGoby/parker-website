@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import BlogCard from '@/components/sections/BlogCard'
 import { getAllPublishedPosts } from '@/lib/db-blog'
 import { getCurrentRole } from '@/lib/auth-utils'
@@ -17,9 +18,12 @@ export default async function BlogPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Blog</h1>
         {isAdmin && (
-          <button className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200">
+          <Link
+            href="/blog/new"
+            className="inline-flex items-center gap-1.5 rounded-md border border-cyan-500/70 bg-neutral-800 px-4 py-2 text-sm text-white transition-colors hover:border-cyan-400 hover:bg-cyan-950 hover:text-cyan-300"
+          >
             + Add Blog
-          </button>
+          </Link>
         )}
       </div>
       <p className="mt-3 text-neutral-600 dark:text-neutral-400">
