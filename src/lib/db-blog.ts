@@ -41,3 +41,11 @@ export async function getPostBySlug(
   if (!row || !row.published) return null
   return { post: toPost(row), content: row.content }
 }
+
+export async function getPostBySlugAdmin(
+  slug: string,
+): Promise<{ post: Post; content: string } | null> {
+  const [row] = await db.select().from(posts).where(eq(posts.slug, slug)).limit(1)
+  if (!row) return null
+  return { post: toPost(row), content: row.content }
+}
