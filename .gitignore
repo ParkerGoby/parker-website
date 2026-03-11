@@ -36,6 +36,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# feature specs for agents
+/features_for_agents
+
 # vercel
 .vercel
 
