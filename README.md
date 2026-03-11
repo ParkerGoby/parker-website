@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Parker's Portfolio
+
+Personal portfolio and blog site built with Next.js. Showcases projects and serves as a technical blog for writing about software development.
+
+## Tech Stack
+
+- **Framework**: Next.js (App Router) + TypeScript
+- **Styling**: Tailwind CSS v4
+- **Blog**: MDX with gray-matter and reading-time
+- **Icons**: lucide-react
+- **Package manager**: pnpm
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command        | Description              |
+| -------------- | ------------------------ |
+| `pnpm dev`     | Start dev server         |
+| `pnpm build`   | Production build         |
+| `pnpm lint`    | Run ESLint               |
+| `pnpm format`  | Run Prettier             |
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/              # Next.js App Router pages
+├── components/
+│   ├── layout/       # Layout components (header, footer, etc.)
+│   └── sections/     # Page section components
+├── content/
+│   └── blog/         # MDX blog posts
+├── lib/
+│   ├── blog.ts       # Blog utilities
+│   └── projects.ts   # Project data
+└── types/            # Shared TypeScript types
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Adding Content
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Blog posts** — add `.mdx` files to `src/content/blog/` with the following frontmatter:
 
-## Deploy on Vercel
+```yaml
+---
+title: Post Title
+date: 'YYYY-MM-DD'
+excerpt: A short description of the post.
+tags: [tag1, tag2]
+published: true
+---
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Projects** — add entries to the `projects` array in `src/lib/projects.ts`.
