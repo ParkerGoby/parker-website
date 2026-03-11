@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 import { getCurrentRole } from '@/lib/auth-utils'
 import { getPostBySlugAdmin } from '@/lib/db-blog'
-import EditBlogForm from '@/components/sections/EditBlogForm'
+import BlogForm from '@/components/sections/BlogForm'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -19,16 +19,16 @@ export default async function EditBlogPage({ params }: Props) {
   if (!result) notFound()
 
   const { post, content } = result
-  const tagsString = post.tags.join(', ')
 
   return (
-    <EditBlogForm
+    <BlogForm
+      mode="edit"
+      slug={slug}
       initialTitle={post.title}
       initialExcerpt={post.excerpt}
-      initialTags={tagsString}
+      initialTags={post.tags.join(', ')}
       initialContent={content}
       initialPublished={post.published}
-      slug={slug}
     />
   )
 }

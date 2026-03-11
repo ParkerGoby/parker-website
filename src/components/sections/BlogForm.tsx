@@ -6,23 +6,25 @@ import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-interface EditBlogFormProps {
-  initialTitle: string
-  initialExcerpt: string
-  initialTags: string
-  initialContent: string
-  initialPublished: boolean
-  slug: string
+interface BlogFormProps {
+  mode: 'create' | 'edit'
+  slug?: string
+  initialTitle?: string
+  initialExcerpt?: string
+  initialTags?: string
+  initialContent?: string
+  initialPublished?: boolean
 }
 
-export default function EditBlogForm({
-  initialTitle,
-  initialExcerpt,
-  initialTags,
-  initialContent,
-  initialPublished,
+export default function BlogForm({
+  mode,
   slug,
-}: EditBlogFormProps) {
+  initialTitle = '',
+  initialExcerpt = '',
+  initialTags = '',
+  initialContent = '',
+  initialPublished = true,
+}: BlogFormProps) {
   const router = useRouter()
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
@@ -147,27 +149,40 @@ export default function EditBlogForm({
     }
     setIsSubmitting(true)
     try {
-      const res = await fetch(`/api/blog/posts/${slug}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: title.trim(),
-          excerpt: excerpt.trim(),
-          content,
-          tags: tags
-            .split(',')
-            .map((t) => t.trim())
-            .filter(Boolean),
-          published,
-        }),
+      const body = JSON.stringify({
+        title: title.trim(),
+        excerpt: excerpt.trim(),
+        content,
+        tags: tags
+          .split(',')
+          .map((t) => t.trim())
+          .filter(Boolean),
+        published,
       })
+
+      const res =
+        mode === 'edit'
+          ? await fetch(`/api/blog/posts/${slug}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body,
+            })
+          : await fetch('/api/blog/posts', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body,
+            })
 
       if (res.status === 403) {
         setError('Admin access required.')
         return
       }
-      if (res.status === 404) {
+      if (mode === 'edit' && res.status === 404) {
         setError('Post not found.')
+        return
+      }
+      if (mode === 'create' && res.status === 409) {
+        setError('A post with this title already exists.')
         return
       }
       if (!res.ok) {
@@ -175,7 +190,7 @@ export default function EditBlogForm({
         return
       }
 
-      router.push(`/blog/${slug}`)
+      router.push(mode === 'edit' ? `/blog/${slug}` : '/blog')
     } finally {
       setIsSubmitting(false)
     }
@@ -188,7 +203,10 @@ export default function EditBlogForm({
     <div className="mx-auto flex h-[calc(100vh-4rem)] max-w-7xl flex-col px-6 py-6">
       {/* Header row */}
       <div className="mb-4 flex items-center gap-4">
-        <Link href={`/blog/${slug}`} className="text-sm text-neutral-400 hover:text-neutral-200">
+        <Link
+          href={mode === 'edit' ? `/blog/${slug}` : '/blog'}
+          className="text-sm text-neutral-400 hover:text-neutral-200"
+        >
           ← Back
         </Link>
         <input
@@ -302,7 +320,13 @@ export default function EditBlogForm({
             disabled={isSubmitting}
             className="rounded-md bg-cyan-600 px-5 py-2 text-sm font-medium text-white hover:bg-cyan-500 disabled:opacity-50"
           >
-            {isSubmitting ? 'Updating...' : 'Update Blog'}
+            {isSubmitting
+              ? mode === 'edit'
+                ? 'Updating...'
+                : 'Posting...'
+              : mode === 'edit'
+                ? 'Update Blog'
+                : 'Post Blog'}
           </button>
         </div>
       </div>
