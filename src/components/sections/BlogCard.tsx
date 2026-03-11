@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { Post } from '@/types'
 import GlowCard from '@/components/ui/GlowCard'
+import { TagList } from '@/components/Tag'
 
 type BlogCardProps = Pick<Post, 'title' | 'date' | 'excerpt' | 'slug' | 'readingTime' | 'tags'>
 
@@ -21,18 +22,7 @@ export default function BlogCard({ title, date, excerpt, slug, readingTime, tags
         </p>
         <p className="mt-2 text-sm text-neutral-500">{excerpt}</p>
       </Link>
-      {tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-teal-800/50 bg-teal-950 px-2.5 py-0.5 text-xs font-medium text-teal-300"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
+      <TagList tags={tags} className="mt-3" />
     </GlowCard>
   )
 }

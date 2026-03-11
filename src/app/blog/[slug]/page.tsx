@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { getPostBySlug } from '@/lib/db-blog'
 import { getCurrentRole } from '@/lib/auth-utils'
+import { TagList } from '@/components/Tag'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -51,18 +52,7 @@ export default async function BlogPostPage({ params }: Props) {
           {formatted}
           {post.readingTime && <span> · {post.readingTime}</span>}
         </p>
-        {post.tags.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full bg-neutral-100 px-2.5 py-0.5 text-xs font-medium dark:bg-neutral-800"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
+        <TagList tags={post.tags} className="mt-4" />
       </header>
       <div className="prose prose-neutral dark:prose-invert max-w-none">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
