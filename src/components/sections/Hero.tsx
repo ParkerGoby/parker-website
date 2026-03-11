@@ -17,11 +17,11 @@ export default function Hero() {
           </span>
         </h1>
         <p className="mt-4 text-xl text-neutral-300">
-          Software Engineer building things on the web.
+          Software Engineer | Pursuing an MBA
         </p>
         <p className="mt-4 max-w-xl text-neutral-500">
-          I enjoy working with TypeScript, React, and modern web tooling. I write about what I learn
-          and build along the way.
+          I build web apps with TypeScript and React, and microservices in the cloud with Python. I write about
+          software, disc golf, fitness, and everything I&apos;m learning along the way.
         </p>
         <div className="mt-8 flex items-center gap-4">
           {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
