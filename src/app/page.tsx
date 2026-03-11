@@ -2,9 +2,9 @@ import Hero from '@/components/sections/Hero'
 import ProjectCard from '@/components/sections/ProjectCard'
 import BlogCard from '@/components/sections/BlogCard'
 import Contact from '@/components/sections/Contact'
+import SectionHeader from '@/components/SectionHeader'
 import { projects } from '@/lib/projects'
 import { getRecentPosts } from '@/lib/db-blog'
-import Link from 'next/link'
 
 export default async function Home() {
   const posts = await getRecentPosts(4)
@@ -16,18 +16,7 @@ export default async function Home() {
 
       <section className="py-12">
         <div className="mx-auto max-w-4xl px-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-2xl font-bold tracking-tight">Projects</h2>
-              <div className="mt-1 h-0.5 w-8 bg-gradient-to-r from-cyan-400 to-teal-400" />
-            </div>
-            <Link
-              href="/projects"
-              className="text-sm text-neutral-500 transition-colors hover:text-cyan-400"
-            >
-              View all →
-            </Link>
-          </div>
+          <SectionHeader title="Projects" viewAllHref="/projects" />
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {featuredProjects.map((project) => (
               <ProjectCard key={project.title} {...project} />
@@ -39,18 +28,7 @@ export default async function Home() {
       {posts.length > 0 && (
         <section className="py-12">
           <div className="mx-auto max-w-4xl px-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-2xl font-bold tracking-tight">Writing</h2>
-                <div className="mt-1 h-0.5 w-8 bg-gradient-to-r from-cyan-400 to-teal-400" />
-              </div>
-              <Link
-                href="/blog"
-                className="text-sm text-neutral-500 transition-colors hover:text-cyan-400"
-              >
-                View all →
-              </Link>
-            </div>
+            <SectionHeader title="Writing" viewAllHref="/blog" />
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {posts.map((post) => (
                 <BlogCard key={post.slug} {...post} />

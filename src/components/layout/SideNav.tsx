@@ -3,20 +3,15 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Github, Linkedin, Mail, Menu, X, Home, FolderOpen, FileText, LogIn, LogOut } from 'lucide-react'
+import { Menu, X, Home, FolderOpen, FileText, LogIn, LogOut } from 'lucide-react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
+import { SOCIAL_LINKS } from '@/lib/constants'
 
 const navLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/projects', label: 'Projects', icon: FolderOpen },
   { href: '/blog', label: 'Blog', icon: FileText },
-]
-
-const socialLinks = [
-  { href: 'https://github.com/ParkerGoby', label: 'GitHub', icon: Github },
-  { href: 'https://www.linkedin.com/in/parker-goby-b0336a25b/', label: 'LinkedIn', icon: Linkedin },
-  { href: 'mailto:parkergoby1@gmail.com', label: 'Email', icon: Mail },
 ]
 
 export default function SideNav() {
@@ -65,7 +60,7 @@ export default function SideNav() {
 
       {/* Social Icons */}
       <div className="mt-6 flex items-center gap-3 px-3">
-        {socialLinks.map(({ href, label, icon: Icon }) => (
+        {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
           <Link
             key={href}
             href={href}

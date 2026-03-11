@@ -36,16 +36,10 @@ export async function getAllPublishedPosts(): Promise<Post[]> {
 
 export async function getPostBySlug(
   slug: string,
-): Promise<{ post: Post; content: string } | null> {
-  const [row] = await db.select().from(posts).where(eq(posts.slug, slug)).limit(1)
-  if (!row || !row.published) return null
-  return { post: toPost(row), content: row.content }
-}
-
-export async function getPostBySlugAdmin(
-  slug: string,
+  { includeUnpublished = false } = {},
 ): Promise<{ post: Post; content: string } | null> {
   const [row] = await db.select().from(posts).where(eq(posts.slug, slug)).limit(1)
   if (!row) return null
+  if (!includeUnpublished && !row.published) return null
   return { post: toPost(row), content: row.content }
 }

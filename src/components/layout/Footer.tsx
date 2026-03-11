@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Github, Linkedin, Mail } from 'lucide-react'
+import { SOCIAL_LINKS } from '@/lib/constants'
 
 export default function Footer() {
   return (
@@ -9,33 +9,18 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} Parker G
         </p>
         <div className="flex items-center gap-4">
-          <Link
-            href="https://github.com/ParkerGoby"
-            aria-label="GitHub"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-neutral-500 transition-colors hover:text-neutral-900 dark:hover:text-neutral-100"
-          >
-            <Github size={18} />
-          </Link>
-          <Link
-            href="https://www.linkedin.com/in/parker-goby-b0336a25b/"
-            aria-label="LinkedIn"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-neutral-500 transition-colors hover:text-neutral-900 dark:hover:text-neutral-100"
-          >
-            <Linkedin size={18} />
-          </Link>
-          <Link
-            href="mailto:parkergoby1@gmail.com"
-            aria-label="Email"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-neutral-500 transition-colors hover:text-neutral-900 dark:hover:text-neutral-100"
-          >
-            <Mail size={18} />
-          </Link>
+          {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              aria-label={label}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-neutral-500 transition-colors hover:text-neutral-900 dark:hover:text-neutral-100"
+            >
+              <Icon size={18} />
+            </Link>
+          ))}
         </div>
       </div>
     </footer>

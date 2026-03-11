@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm'
 import { getPostBySlug } from '@/lib/db-blog'
 import { getCurrentRole } from '@/lib/auth-utils'
 import { TagList } from '@/components/Tag'
+import { formatDate } from '@/lib/utils'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -28,11 +29,7 @@ export default async function BlogPostPage({ params }: Props) {
   if (!result) notFound()
 
   const { post, content } = result
-  const formatted = new Date(post.date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  const formatted = formatDate(post.date)
 
   return (
     <article className="mx-auto max-w-2xl px-6 py-16">

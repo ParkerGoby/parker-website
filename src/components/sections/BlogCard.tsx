@@ -2,15 +2,12 @@ import Link from 'next/link'
 import type { Post } from '@/types'
 import GlowCard from '@/components/ui/GlowCard'
 import { TagList } from '@/components/Tag'
+import { formatDate } from '@/lib/utils'
 
 type BlogCardProps = Pick<Post, 'title' | 'date' | 'excerpt' | 'slug' | 'readingTime' | 'tags'>
 
 export default function BlogCard({ title, date, excerpt, slug, readingTime, tags }: BlogCardProps) {
-  const formatted = new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
+  const formatted = formatDate(date)
 
   return (
     <GlowCard className="group">

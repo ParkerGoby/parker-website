@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Github, ExternalLink } from 'lucide-react'
 import type { Project } from '@/types'
 import GlowCard from '@/components/ui/GlowCard'
+import { TagList } from '@/components/Tag'
 
 export default function ProjectCard({ title, description, tech, url, github }: Project) {
   return (
@@ -34,16 +35,7 @@ export default function ProjectCard({ title, description, tech, url, github }: P
         </div>
       </div>
       <p className="mt-2 text-sm text-neutral-500">{description}</p>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {tech.map((t) => (
-          <span
-            key={t}
-            className="rounded-full border border-teal-800/50 bg-teal-950 px-2.5 py-0.5 text-xs font-medium text-teal-300"
-          >
-            {t}
-          </span>
-        ))}
-      </div>
+      <TagList tags={tech} className="mt-4" />
     </GlowCard>
   )
 }
