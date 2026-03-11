@@ -1,6 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { getCurrentRole } from '@/lib/auth-utils'
-import { getPostBySlugAdmin } from '@/lib/db-blog'
+import { getPostBySlug } from '@/lib/db-blog'
 import BlogForm from '@/components/sections/BlogForm'
 
 interface Props {
@@ -15,7 +15,7 @@ export default async function EditBlogPage({ params }: Props) {
     redirect(`/blog/${slug}`)
   }
 
-  const result = await getPostBySlugAdmin(slug)
+  const result = await getPostBySlug(slug, { includeUnpublished: true })
   if (!result) notFound()
 
   const { post, content } = result

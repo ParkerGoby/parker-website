@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:docs.anthropic.com)"
+      "WebFetch(domain:docs.anthropic.com)",
+      "Bash(grep -n \"text-2xl font-bold tracking-tight\\\\|mt-1 h-0.5 w-8 bg-gradient-to-r\\\\|flex items-center justify-between\" /home/parkerg/Coding_Projects/Parker_Website/src/app/*.tsx /home/parkerg/Coding_Projects/Parker_Website/src/components/sections/*.tsx)",
+      "Bash(grep -n \"inline-flex items-center gap-2 rounded-md border\" /home/parkerg/Coding_Projects/Parker_Website/src/components/sections/*.tsx)",
+      "Bash(grep -n \"toLocaleDateString\" /home/parkerg/Coding_Projects/Parker_Website/src/components/sections/BlogCard.tsx /home/parkerg/Coding_Projects/Parker_Website/src/app/blog/\\\\[slug\\\\]/page.tsx)"
     ]
   }
 }
