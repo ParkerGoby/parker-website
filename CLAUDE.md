@@ -28,3 +28,22 @@
 ## Content
 - Add blog posts as `.mdx` files in `src/content/blog/`
 - Update project list in `src/lib/projects.ts`
+
+## Testing
+- `pnpm test` — run full Playwright E2E suite (requires production build + DB running)
+- `pnpm test:ui` — open Playwright UI mode
+- `pnpm test:headed` — run tests in headed browser
+- `pnpm test:report` — view last HTML report
+
+### Local workflow
+1. Ensure PostgreSQL is running
+2. `pnpm db:seed` — seed the database (idempotent, safe to run multiple times)
+3. `pnpm build && pnpm test`
+
+### Rules
+- Add a spec in `tests/pages/` for every new page/route
+- Add a redirect assertion to `tests/pages/admin-guards.spec.ts` for every new admin-only route
+- The page-level external link sweep in each spec automatically catches any missing `target="_blank"` / `rel="noopener noreferrer"` attributes
+
+### Important
+- **Do not delete or unpublish the `hello-world` seed post** without also updating `tests/fixtures/known-posts.ts`. Many specs depend on this post existing and being published.
