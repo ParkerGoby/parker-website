@@ -7,6 +7,7 @@ import { Menu, X, Home, FolderOpen, FileText, LogIn, LogOut } from 'lucide-react
 import { useSession, signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { SOCIAL_LINKS } from '@/lib/constants'
+import ThemeToggle from './ThemeToggle'
 
 const navLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -58,7 +59,7 @@ export default function SideNav() {
         ))}
       </nav>
 
-      {/* Social Icons */}
+      {/* Social Icons + Theme Toggle */}
       <div className="mt-6 flex items-center gap-3 px-3">
         {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
           <Link
@@ -72,6 +73,7 @@ export default function SideNav() {
             <Icon size={18} />
           </Link>
         ))}
+        <ThemeToggle />
       </div>
 
       {/* Auth UI */}
@@ -118,13 +120,13 @@ export default function SideNav() {
   return (
     <>
       {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-neutral-800/60 bg-[#0a0f0f] md:block">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-neutral-800/60 bg-background md:block">
         <NavContent />
       </aside>
 
       {/* Mobile hamburger button */}
       <button
-        className="fixed left-4 top-4 z-50 flex h-9 w-9 items-center justify-center rounded-md border border-neutral-800 bg-[#0a0f0f] text-neutral-400 transition-colors hover:text-cyan-400 md:hidden"
+        className="fixed left-4 top-4 z-50 flex h-9 w-9 items-center justify-center rounded-md border border-neutral-800 bg-background text-neutral-400 transition-colors hover:text-cyan-400 md:hidden"
         onClick={() => setOpen(true)}
         aria-label="Open menu"
       >
@@ -141,7 +143,7 @@ export default function SideNav() {
 
       {/* Mobile drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 border-r border-neutral-800/60 bg-[#0a0f0f] transition-transform duration-200 md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 border-r border-neutral-800/60 bg-background transition-transform duration-200 md:hidden ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
