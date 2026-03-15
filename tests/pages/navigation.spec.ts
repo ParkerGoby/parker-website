@@ -39,6 +39,65 @@ test.describe('Desktop navigation', () => {
   })
 })
 
+test.describe('Theme toggle', () => {
+  test.use({ viewport: { width: 1280, height: 720 } })
+
+  test('toggle button is visible in the sidebar', async ({ page }) => {
+    await page.goto('/')
+    const sidebar = page.locator('aside').first()
+    await expect(sidebar.getByLabel('Toggle theme')).toBeVisible()
+  })
+
+  test('clicking toggle adds/removes dark class on <html>', async ({ page }) => {
+    await page.goto('/')
+    await page.evaluate(() => {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    })
+
+    const isDarkBefore = await page.evaluate(() =>
+      document.documentElement.classList.contains('dark')
+    )
+    expect(isDarkBefore).toBe(false)
+
+    await page.locator('aside').first().getByLabel('Toggle theme').click()
+
+    const isDarkAfter = await page.evaluate(() =>
+      document.documentElement.classList.contains('dark')
+    )
+    expect(isDarkAfter).toBe(true)
+  })
+
+  test('theme choice is persisted to localStorage', async ({ page }) => {
+    await page.goto('/')
+    await page.evaluate(() => {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    })
+
+    const toggle = page.locator('aside').first().getByLabel('Toggle theme')
+
+    await toggle.click()
+    const stored = await page.evaluate(() => localStorage.getItem('theme'))
+    expect(stored).toBe('dark')
+
+    await toggle.click()
+    const storedAgain = await page.evaluate(() => localStorage.getItem('theme'))
+    expect(storedAgain).toBe('light')
+  })
+
+  test('localStorage preference is applied on next load', async ({ page }) => {
+    await page.goto('/')
+    await page.evaluate(() => localStorage.setItem('theme', 'dark'))
+    await page.reload()
+
+    const isDark = await page.evaluate(() =>
+      document.documentElement.classList.contains('dark')
+    )
+    expect(isDark).toBe(true)
+  })
+})
+
 test.describe('Mobile navigation (Pixel 5)', () => {
   test.use({ viewport: { width: 393, height: 851 } })
 
