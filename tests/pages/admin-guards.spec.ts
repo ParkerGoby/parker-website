@@ -2,6 +2,12 @@ import { test, expect } from '@playwright/test'
 import { SEED_POST } from '../fixtures/known-posts'
 
 test.describe('Admin route guards (unauthenticated)', () => {
+  test('/lifts/exercises redirects to /lifts', async ({ page }) => {
+    await page.goto('/lifts/exercises')
+    await expect(page).toHaveURL('/lifts')
+    await expect(page.getByRole('heading', { name: 'Lifts' })).toBeVisible()
+  })
+
   test('/blog/new redirects to /blog', async ({ page }) => {
     await page.goto('/blog/new')
     await expect(page).toHaveURL('/blog')
