@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { useMarkdownEditor } from '@/hooks/useMarkdownEditor'
 
 interface BlogFormProps {
   mode: 'create' | 'edit'
@@ -36,115 +37,26 @@ export default function BlogForm({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
 
-  function wrapSelection(open: string, close: string) {
-    const ta = textareaRef.current
-    if (!ta) return
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    const sel = content.slice(start, end)
-    const newContent = content.slice(0, start) + open + sel + close + content.slice(end)
-    setContent(newContent)
-    requestAnimationFrame(() => {
-      ta.focus()
-      ta.setSelectionRange(start + open.length, end + open.length)
-    })
-  }
-
-  function prependLine(prefix: string) {
-    const ta = textareaRef.current
-    if (!ta) return
-    const start = ta.selectionStart
-    const lineStart = content.lastIndexOf('\n', start - 1) + 1
-    const newContent = content.slice(0, lineStart) + prefix + content.slice(lineStart)
-    setContent(newContent)
-    requestAnimationFrame(() => {
-      ta.focus()
-      ta.setSelectionRange(start + prefix.length, start + prefix.length)
-    })
-  }
-
-  function insertAtCursor(text: string) {
-    const ta = textareaRef.current
-    if (!ta) return
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    const newContent = content.slice(0, start) + text + content.slice(end)
-    setContent(newContent)
-    requestAnimationFrame(() => {
-      ta.focus()
-      ta.setSelectionRange(start + text.length, start + text.length)
-    })
-  }
-
-  function handleBold() {
-    wrapSelection('**', '**')
-  }
-
-  function handleItalic() {
-    wrapSelection('*', '*')
-  }
-
-  function handleHeading(level: number) {
-    prependLine('#'.repeat(level) + ' ')
-  }
-
-  function handleCode() {
-    const ta = textareaRef.current
-    if (!ta) return
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    const sel = content.slice(start, end)
-    if (sel.includes('\n')) {
-      const open = '```\n'
-      const close = '\n```'
-      const newContent = content.slice(0, start) + open + sel + close + content.slice(end)
-      setContent(newContent)
-      requestAnimationFrame(() => {
-        ta.focus()
-        ta.setSelectionRange(start + open.length, end + open.length)
-      })
-    } else {
-      wrapSelection('`', '`')
-    }
-  }
-
-  function handleUL() {
-    prependLine('- ')
-  }
-
-  function handleOL() {
-    prependLine('1. ')
-  }
-
-  function handleHR() {
-    insertAtCursor('\n---\n')
-  }
-
-  function handleNewline() {
-    insertAtCursor('  \n')
-  }
-
-  function handleLink() {
-    const ta = textareaRef.current
-    if (!ta) return
-    const start = ta.selectionStart
-    const end = ta.selectionEnd
-    const sel = content.slice(start, end)
-    const text = sel || 'link text'
-    const inserted = `[${text}](url)`
-    const newContent = content.slice(0, start) + inserted + content.slice(end)
-    setContent(newContent)
-    requestAnimationFrame(() => {
-      ta.focus()
-      const urlStart = start + text.length + 3
-      ta.setSelectionRange(urlStart, urlStart + 3)
-    })
-  }
+  const {
+    handleBold,
+    handleItalic,
+    handleHeading,
+    handleCode,
+    handleUL,
+    handleOL,
+    handleHR,
+    handleNewline,
+    handleLink,
+  } = useMarkdownEditor(textareaRef, content, setContent)
 
   async function handleSubmit() {
     setError('')
     if (!title.trim()) {
       setError('Title is required.')
+      return
+    }
+    if (!excerpt.trim()) {
+      setError('Excerpt is required.')
       return
     }
     setIsSubmitting(true)
@@ -214,7 +126,8 @@ export default function BlogForm({
           placeholder="Post title..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="flex-1 rounded-md border border-neutral-800 bg-neutral-950 px-4 py-2 text-xl font-bold text-neutral-100 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+          disabled={isSubmitting}
+          className="flex-1 rounded-md border border-neutral-800 bg-neutral-950 px-4 py-2 text-xl font-bold text-neutral-100 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none disabled:opacity-50"
         />
       </div>
 
@@ -224,15 +137,17 @@ export default function BlogForm({
           placeholder="Excerpt (short description)..."
           value={excerpt}
           onChange={(e) => setExcerpt(e.target.value)}
+          disabled={isSubmitting}
           rows={2}
-          className="flex-1 resize-none rounded-md border border-neutral-800 bg-neutral-950 px-4 py-2 text-sm text-neutral-100 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+          className="flex-1 resize-none rounded-md border border-neutral-800 bg-neutral-950 px-4 py-2 text-sm text-neutral-100 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none disabled:opacity-50"
         />
         <input
           type="text"
           placeholder="Tags (comma-separated)"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
-          className="w-64 rounded-md border border-neutral-800 bg-neutral-950 px-4 py-2 text-sm text-neutral-100 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none"
+          disabled={isSubmitting}
+          className="w-64 rounded-md border border-neutral-800 bg-neutral-950 px-4 py-2 text-sm text-neutral-100 placeholder-neutral-600 focus:border-neutral-600 focus:outline-none disabled:opacity-50"
         />
       </div>
 
@@ -242,38 +157,39 @@ export default function BlogForm({
         <div className="flex flex-1 flex-col rounded-md border border-neutral-800">
           {/* Toolbar */}
           <div className="flex flex-wrap gap-1 border-b border-neutral-800 px-3 py-2">
-            <button onClick={handleBold} className={toolbarBtn} title="Bold">
+            <button onClick={handleBold} disabled={isSubmitting} className={toolbarBtn} title="Bold">
               B
             </button>
-            <button onClick={handleItalic} className={toolbarBtn} title="Italic">
+            <button onClick={handleItalic} disabled={isSubmitting} className={toolbarBtn} title="Italic">
               I
             </button>
-            <button onClick={() => handleHeading(1)} className={toolbarBtn} title="Heading 1">
+            <button onClick={() => handleHeading(1)} disabled={isSubmitting} className={toolbarBtn} title="Heading 1">
               H1
             </button>
-            <button onClick={() => handleHeading(2)} className={toolbarBtn} title="Heading 2">
+            <button onClick={() => handleHeading(2)} disabled={isSubmitting} className={toolbarBtn} title="Heading 2">
               H2
             </button>
-            <button onClick={() => handleHeading(3)} className={toolbarBtn} title="Heading 3">
+            <button onClick={() => handleHeading(3)} disabled={isSubmitting} className={toolbarBtn} title="Heading 3">
               H3
             </button>
-            <button onClick={handleCode} className={toolbarBtn} title="Code">
+            <button onClick={handleCode} disabled={isSubmitting} className={toolbarBtn} title="Code">
               {'</>'}
             </button>
-            <button onClick={handleUL} className={toolbarBtn} title="Unordered list">
+            <button onClick={handleUL} disabled={isSubmitting} className={toolbarBtn} title="Unordered list">
               UL
             </button>
-            <button onClick={handleOL} className={toolbarBtn} title="Ordered list">
+            <button onClick={handleOL} disabled={isSubmitting} className={toolbarBtn} title="Ordered list">
               OL
             </button>
-            <button onClick={handleHR} className={toolbarBtn} title="Horizontal rule">
+            <button onClick={handleHR} disabled={isSubmitting} className={toolbarBtn} title="Horizontal rule">
               HR
             </button>
-            <button onClick={handleLink} className={toolbarBtn} title="Link">
+            <button onClick={handleLink} disabled={isSubmitting} className={toolbarBtn} title="Link">
               🔗
             </button>
             <button
               onClick={handleNewline}
+              disabled={isSubmitting}
               className={toolbarBtn}
               title="Hard line break (two spaces + newline)"
             >
@@ -285,8 +201,9 @@ export default function BlogForm({
             ref={textareaRef}
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            disabled={isSubmitting}
             placeholder="Write your post in Markdown..."
-            className="flex-1 resize-none bg-neutral-950 px-4 py-3 font-mono text-sm text-neutral-100 placeholder-neutral-600 focus:outline-none"
+            className="flex-1 resize-none bg-neutral-950 px-4 py-3 font-mono text-sm text-neutral-100 placeholder-neutral-600 focus:outline-none disabled:opacity-50"
           />
         </div>
 
@@ -309,6 +226,7 @@ export default function BlogForm({
             type="checkbox"
             checked={published}
             onChange={(e) => setPublished(e.target.checked)}
+            disabled={isSubmitting}
             className="h-4 w-4 rounded border-neutral-700 accent-cyan-500"
           />
           Publish immediately
