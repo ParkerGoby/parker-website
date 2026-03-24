@@ -15,6 +15,13 @@
       "when": 1772812726657,
       "tag": "0001_light_scourge",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774316689729,
+      "tag": "0002_yielding_ted_forrester",
+      "breakpoints": true
     }
   ]
 }

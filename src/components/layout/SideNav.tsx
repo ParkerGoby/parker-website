@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Home, FolderOpen, FileText, LogIn, LogOut } from 'lucide-react'
+import { Menu, X, Home, FolderOpen, FileText, LogIn, LogOut, Dumbbell } from 'lucide-react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import Image from 'next/image'
 import { SOCIAL_LINKS } from '@/lib/constants'
@@ -13,6 +13,7 @@ const navLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/projects', label: 'Projects', icon: FolderOpen },
   { href: '/blog', label: 'Blog', icon: FileText },
+  { href: '/lifts', label: 'Lifts', icon: Dumbbell },
 ]
 
 export default function SideNav() {

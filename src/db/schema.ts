@@ -8,6 +8,7 @@ import {
   serial,
   text,
   timestamp,
+  unique,
   varchar,
 } from "drizzle-orm/pg-core";
 
@@ -81,3 +82,82 @@ export const posts = pgTable("posts", {
 
 export type Post = typeof posts.$inferSelect;
 export type NewPost = typeof posts.$inferInsert;
+
+export const muscleGroupEnum = pgEnum("muscle_group", [
+  "chest",
+  "back",
+  "shoulders",
+  "biceps",
+  "triceps",
+  "forearms",
+  "quads",
+  "hamstrings",
+  "glutes",
+  "calves",
+  "abductors",
+  "adductors",
+  "core",
+  "full_body",
+]);
+
+export const exercises = pgTable(
+  "exercises",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 255 }).notNull(),
+    muscleGroup: muscleGroupEnum("muscle_group").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => [unique().on(table.name, table.userId)],
+);
+
+export const workouts = pgTable("workouts", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  date: date("date").notNull(),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const sets = pgTable("sets", {
+  id: serial("id").primaryKey(),
+  workoutId: integer("workout_id")
+    .notNull()
+    .references(() => workouts.id, { onDelete: "cascade" }),
+  exerciseId: integer("exercise_id")
+    .notNull()
+    .references(() => exercises.id, { onDelete: "cascade" }),
+  setOrder: integer("set_order").notNull(),
+  weight: integer("weight").notNull(),
+  reps: integer("reps").notNull(),
+  isDropSet: boolean("is_drop_set").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const bodyweight = pgTable(
+  "bodyweight",
+  {
+    id: serial("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    date: date("date").notNull(),
+    weight: integer("weight").notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => [unique().on(table.userId, table.date)],
+);
+
+export type Exercise = typeof exercises.$inferSelect;
+export type NewExercise = typeof exercises.$inferInsert;
+export type Workout = typeof workouts.$inferSelect;
+export type NewWorkout = typeof workouts.$inferInsert;
+export type Set = typeof sets.$inferSelect;
+export type NewSet = typeof sets.$inferInsert;
+export type Bodyweight = typeof bodyweight.$inferSelect;
+export type NewBodyweight = typeof bodyweight.$inferInsert;
